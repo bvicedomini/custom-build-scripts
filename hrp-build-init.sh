@@ -22,9 +22,15 @@ echo "KEY_ID=$KEY_ID"
 echo "ACCESS_KEY=$ACCESS_KEY"
 echo "SESSION_TOKEN=$SESSION_TOKEN"
 
-# echo "awsAccessKeyId=$KEY_ID" >> $HOME/.gradle/gradle.properties
-# echo "awsSecretAccessKey=$ACCESS_KEY" >> $HOME/.gradle/gradle.properties
-# echo "awsSessionToken=$SESSION_TOKEN" >> $HOME/.gradle/gradle.properties
+echo "awsAccessKeyId=$KEY_ID" >> $HOME/.gradle/gradle.properties
+echo "awsSecretAccessKey=$ACCESS_KEY" >> $HOME/.gradle/gradle.properties
+echo "awsSessionToken=$SESSION_TOKEN" >> $HOME/.gradle/gradle.properties
+echo "githubToken=$GITHUB_TOKEN" >> $HOME/.gradle/gradle.properties
+echo "dockerToken=$DOCKER_TOKEN" >> $HOME/.gradle/gradle.properties
+
+echo Contents of gradle.properties
+echo _________________________________________________
+cat $HOME/.gradle/gradle.properties
 
 # reach out to aws secretse manager --- get the docker
 # GITHUB_TOKEN: 'github/oauth:oauthToken'
