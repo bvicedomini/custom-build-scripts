@@ -1,11 +1,17 @@
 echo ____________________________________________________________________
-echo _____________________ starting hrp-build-init.sh ___________________
+echo _____________________ starting hrp-init.sh _________________________
 echo ____________________________________________________________________
 echo __________________________ id=@0703 ________________________________
 echo ____________________________________________________________________
-# CRED=`curl 169.254.170.2$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI`
-# echo $CRED
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo ~~ Common installs.
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+npm install -g aws-cdk
+npm install -g typescript
 
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo ~~ Get and configure secrets.
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GITHUB_TOKEN=$(aws secretsmanager get-secret-value --secret-id github/oauth | jq --raw-output '.SecretString' | jq -r '.oauthToken')
 echo $GITHUB_TOKEN
 
@@ -28,16 +34,21 @@ echo "awsSessionToken=$SESSION_TOKEN" >> $HOME/.gradle/gradle.properties
 echo "githubToken=$GITHUB_TOKEN" >> $HOME/.gradle/gradle.properties
 echo "dockerToken=$DOCKER_TOKEN" >> $HOME/.gradle/gradle.properties
 
-echo Contents of gradle.properties
-echo _________________________________________________
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo ~~ Contents of gradle.properties.
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cat $HOME/.gradle/gradle.properties
 
-# reach out to aws secretse manager --- get the docker
-# GITHUB_TOKEN: 'github/oauth:oauthToken'
-#    DOCKER_TOKEN: 'docker/accessToken'
-# store results in environ veriable
-# use jq to get just the secret value
+# from call with George on 1/22
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 778477161868.dkr.ecr.us-west-2.amazonaws.com
 
-# gradle properties files...
-# 1)
-# write docker token
+echo Logging in to docker
+# docker login --username dockerhrp --password $DOCKER_TOKEN
+
+echo Logging in to AWS CodeArtifact
+# aws codeartifact login --tool npm --repository hiddenroad-npm --domain hrplp --domain-owner 886589388215
+
+# from call with George on 1/22
+echo ____________________________________________________________________
+echo ______________________ hrp-init.sh end _____________________________
+echo ____________________________________________________________________
