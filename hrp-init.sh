@@ -10,6 +10,19 @@ npm install -g aws-cdk
 npm install -g typescript
 
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo ~~ Versions.
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo java:"\n"`java --version`"\n"
+echo gradle:"\n"`gradle --version`"\n"
+echo mvn:"\n"`mvn --version`"\n"
+echo node:"\n"`node --version`"\n"
+echo npm:"\n"`npm --version`"\n"
+echo python:"\n"`python --version`"\n"
+echo pip:"\n"`pip --version`"\n"
+echo aws cdk:"\n"`cdk --version`"\n"
+echo typescript:"\n"`tsc --version`"\n"
+
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 echo ~~ Get and configure secrets.
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GITHUB_TOKEN=$(aws secretsmanager get-secret-value --secret-id github/oauth | jq --raw-output '.SecretString' | jq -r '.oauthToken')
@@ -39,6 +52,9 @@ echo ~~ Contents of gradle.properties.
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cat $HOME/.gradle/gradle.properties
 
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo ~~ Login to docker and codeartifact.
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # from call with George on 1/22
 aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 778477161868.dkr.ecr.us-west-2.amazonaws.com
 
@@ -47,6 +63,11 @@ echo Logging in to docker
 
 echo Logging in to AWS CodeArtifact
 # aws codeartifact login --tool npm --repository hiddenroad-npm --domain hrplp --domain-owner 886589388215
+
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo ~~ init.gradle.kts.
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cp ./init.gradle.kts ../
 
 # from call with George on 1/22
 echo ____________________________________________________________________
